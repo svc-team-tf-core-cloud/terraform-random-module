@@ -37,3 +37,14 @@ jobs:
           route: DELETE /repos/${{ github.repository }}/hooks/${{ matrix.value }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+  keepalive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git commit --allow-empty -m "chore: test commit"
+          git push
